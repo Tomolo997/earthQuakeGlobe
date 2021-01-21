@@ -6,14 +6,26 @@ body {
 
 .navigaton {
   width: 20rem;
-  background-color: aqua;
+  background-color: rgb(25, 29, 66);
   position: absolute;
   top: 0;
   height: 100%;
   z-index: 10000;
 }
-
+body {
+  overflow: hidden;
+}
 #globeViz {
   position: absolute;
   top: 0;
+  left: 10rem;
+}
+
+#globeViz > div > div > div > canvas {
+  width: 1px;
+  height: 1px;
+}
+.scene-container {
+  width: 10rem;
+  position: absolute;
 }
