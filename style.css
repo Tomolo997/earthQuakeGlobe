@@ -46,7 +46,9 @@ span {
 }
 .card__lat {
   visibility: hidden;
+  display: none;
 }
 .card__lng {
   visibility: hidden;
+  display: none;
 }

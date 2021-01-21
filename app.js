@@ -44,14 +44,17 @@ async function stateFill() {
   }
   return dataObject;
 }
-
+let latn = 122;
+let lngt = 122;
+let altitude = 2;
 async function occupyTheGlobe() {
   const dataObject = await stateFill();
   Globe()
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
     .pointsData(dataObject)
     .pointAltitude('size')
-    .pointColor('color')(document.getElementById('globeViz'));
+    .pointColor('color')(document.getElementById('globeViz'))
+    .pointOfView({ latn, lngt, altitude }, [100]);
 }
 
 function init() {
@@ -98,3 +101,20 @@ async function generateCards() {
   navigation.insertAdjacentHTML('afterbegin', html);
 }
 generateCards();
+
+async function getClicked(params) {
+  const cardsData = await generateCards();
+  const cards = document.querySelectorAll('.card');
+
+  console.log(cards);
+  cards.forEach((el) =>
+    el.addEventListener('click', function (e) {
+      const cardDiv = e.target.closest('.card');
+      const children = Array.from(cardDiv.children);
+      let lat123 = children[children.length - 2];
+      let lng123 = children[children.length - 1];
+      console.log(lat123.textContent, lng123.textContent);
+    })
+  );
+}
+getClicked();
