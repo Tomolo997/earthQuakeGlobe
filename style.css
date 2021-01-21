@@ -20,12 +20,3 @@ body {
   top: 0;
   left: 10rem;
 }
-
-#globeViz > div > div > div > canvas {
-  width: 1px;
-  height: 1px;
-}
-.scene-container {
-  width: 10rem;
-  position: absolute;
-}

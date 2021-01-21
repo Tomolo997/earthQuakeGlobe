@@ -16,6 +16,12 @@ Globe()
   .showAtmosphere(false);
 //get earthquake data
 
-const canvas = document.querySelector('canvas');
-canvas.style.width = '10px';
-console.log(canvas);
+//get data
+async function getData() {
+  const res = await fetch(
+    'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02'
+  );
+  const data = await res.json();
+  console.log(data);
+}
+getData();
