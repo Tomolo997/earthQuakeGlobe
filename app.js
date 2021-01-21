@@ -8,7 +8,6 @@
 // }));
 
 //get earthquake data
-
 //get data
 async function getData(startTime, endTime) {
   const res = await fetch(
@@ -21,7 +20,7 @@ async function getData(startTime, endTime) {
 //fill out the state with this data =>
 
 const dataObject = [];
-
+const cardsInObject = 10;
 async function stateFill() {
   const data = await getData();
   for (let i = 0; i < data.features.length; i++) {
@@ -40,6 +39,7 @@ async function stateFill() {
         'rgb(88, 0, 0)',
         'rgb(0, 0, 0)',
       ][getNumber(element.properties.mag)],
+      earthQuakesPerPage: dataObject.length / cardsInObject,
     });
   }
   return dataObject;
@@ -84,10 +84,11 @@ function getNumber(size) {
 }
 const navigation = document.querySelector('.navigaton');
 //generate the predisposed
-async function generateCards() {
+async function generateCards(from, to) {
   const dataObject = await stateFill();
-  console.log(dataObject);
-  let html = dataObject
+
+  const pagedPerdDataObject = dataObject.slice(from, to);
+  let html = pagedPerdDataObject
     .map((el) => {
       return `<div class="card">
     <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
@@ -98,15 +99,13 @@ async function generateCards() {
   </div>`;
     })
     .join('');
-  navigation.insertAdjacentHTML('afterbegin', html);
+  navigation.insertAdjacentHTML('beforeend', html);
 }
-generateCards();
 
 async function getClicked(params) {
-  const cardsData = await generateCards();
+  const cardsData = await generateCards(0, 8);
   const cards = document.querySelectorAll('.card');
 
-  console.log(cards);
   cards.forEach((el) =>
     el.addEventListener('click', function (e) {
       const cardDiv = e.target.closest('.card');
@@ -114,6 +113,7 @@ async function getClicked(params) {
       let lat123 = children[children.length - 2];
       let lng123 = children[children.length - 1];
       console.log(lat123.textContent, lng123.textContent);
+      Globe().pointOfView({ lat123, lng123, altitude }, [100]);
     })
   );
 }
