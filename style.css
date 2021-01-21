@@ -16,7 +16,6 @@ body {
   align-items: center;
 }
 body {
-  overflow: hidden;
 }
 #globeViz {
   position: absolute;
@@ -32,19 +31,22 @@ body {
   margin-top: 1rem;
   color: white;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .card__where {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
 }
 .card__when {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
 }
 .card__mag {
-  position: absolute;
-  bottom: 1rem;
-  right: 4rem;
+}
+
+span {
+  color: black;
+}
+.card__lat {
+  visibility: hidden;
+}
+.card__lng {
+  visibility: hidden;
 }

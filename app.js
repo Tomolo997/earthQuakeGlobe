@@ -12,7 +12,7 @@
 //get data
 async function getData(startTime, endTime) {
   const res = await fetch(
-    'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-12-25&endtime=2021-01-21'
+    'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-20&endtime=2021-01-21'
   );
   const data = await res.json();
   console.log(data);
@@ -42,7 +42,6 @@ async function stateFill() {
       ][getNumber(element.properties.mag)],
     });
   }
-  console.log(dataObject);
   return dataObject;
 }
 
@@ -80,5 +79,22 @@ function getNumber(size) {
     return 4;
   }
 }
-
+const navigation = document.querySelector('.navigaton');
 //generate the predisposed
+async function generateCards() {
+  const dataObject = await stateFill();
+  console.log(dataObject);
+  let html = dataObject
+    .map((el) => {
+      return `<div class="card">
+    <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
+    <div class="card__when">When: <span class="span__when">${el.time}</span></div>
+    <div class="card__mag">Magnitude: <span class="span__mag">${el.magnitude}</span></div>
+    <span class="card__lat">${el.lat}</span>
+    <span class="card__lng">${el.lng}</span>
+  </div>`;
+    })
+    .join('');
+  navigation.insertAdjacentHTML('afterbegin', html);
+}
+generateCards();
