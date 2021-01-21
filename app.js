@@ -19,9 +19,11 @@ async function getData(startTime, endTime) {
   return data;
 }
 //fill out the state with this data =>
+
+const dataObject = [];
+
 async function stateFill() {
   const data = await getData();
-  const dataObject = [];
   for (let i = 0; i < data.features.length; i++) {
     const element = data.features[i];
     dataObject.push({
@@ -78,3 +80,5 @@ function getNumber(size) {
     return 4;
   }
 }
+
+//generate the predisposed
