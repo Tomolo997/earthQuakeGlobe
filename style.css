@@ -24,15 +24,17 @@ body {
   color: rgb(21, 255, 0);
 }
 .card {
-  height: 5rem;
+  height: 10rem;
   width: 90%;
-  background-color: rgb(175, 193, 214);
-  border-radius: 5px;
+  background-color: rgb(13, 87, 172);
+  border-radius: 9px;
   margin-top: 1rem;
   color: white;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  padding-left: 1rem;
 }
 .card__where {
 }
@@ -42,7 +44,7 @@ body {
 }
 
 span {
-  color: black;
+  color: rgb(243, 243, 243);
 }
 .card__lat {
   visibility: hidden;

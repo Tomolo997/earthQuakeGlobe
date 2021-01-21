@@ -44,8 +44,8 @@ async function stateFill() {
   }
   return dataObject;
 }
-let latn = 122;
-let lngt = 122;
+let latn = 50;
+let lngt = 50;
 let altitude = 2;
 async function occupyTheGlobe() {
   const dataObject = await stateFill();
@@ -53,10 +53,9 @@ async function occupyTheGlobe() {
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
     .pointsData(dataObject)
     .pointAltitude('size')
-    .pointColor('color')(document.getElementById('globeViz'))
-    .pointOfView({ latn, lngt, altitude }, [100]);
+    .pointColor('color')(document.getElementById('globeViz '))
+    .pointOfView({ 0 0 altitude }, [100]);
 }
-
 function init() {
   occupyTheGlobe();
 }
@@ -103,7 +102,7 @@ async function generateCards(from, to) {
 }
 
 async function getClicked(params) {
-  const cardsData = await generateCards(0, 8);
+  const cardsData = await generateCards(0, 50);
   const cards = document.querySelectorAll('.card');
 
   cards.forEach((el) =>
@@ -113,7 +112,7 @@ async function getClicked(params) {
       let lat123 = children[children.length - 2];
       let lng123 = children[children.length - 1];
       console.log(lat123.textContent, lng123.textContent);
-      Globe().pointOfView({ lat123, lng123, altitude }, [100]);
+      Globe().pointOfView(12, 12);
     })
   );
 }
