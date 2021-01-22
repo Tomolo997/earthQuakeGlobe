@@ -26,7 +26,7 @@ async function getData(startTime, endTime) {
 //fill out the state with this data =>
 
 const dataObject = [];
-const cardsInObject = 10;
+const cardsInObject = 7;
 async function stateFill() {
   const data = await getData();
   for (let i = 0; i < data.features.length; i++) {
@@ -90,9 +90,9 @@ function getNumber(size) {
     return 4;
   }
 }
-const navigation = document.querySelector('.navigaton');
+const navigation = document.querySelector('.cardsNavigator');
 //generate the predisposed
-async function generateCards() {
+async function generateCards(from, to) {
   const dataObject = await stateFill();
 
   const pagedPerdDataObject = dataObject.slice(0, 7);
@@ -108,6 +108,9 @@ async function generateCards() {
     })
     .join('');
   navigation.insertAdjacentHTML('beforeend', html);
+
+  //setup the 7 cards per page
+  //setup the pagination , which page and next and prev
 }
 async function getClicked(from, to) {
   const cardsData = await generateCards(from, to);
@@ -126,7 +129,7 @@ async function getClicked(from, to) {
           lng: Number(lng123.textContent),
           altitude: 1,
         },
-        [2000]
+        [1000]
       );
       // myGlobe(globeDiv)
       //   .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
@@ -137,30 +140,10 @@ async function getClicked(from, to) {
   );
 }
 getClicked(0, 6);
-const lastDay = document.querySelector('.lastDayLink');
-const lastSevendDays = document.querySelector('.lastSevendDaysLink');
-const lastMonth = document.querySelector('.lastMonthLink');
-const ShowBiggestFromAllTheTime = document.querySelector(
-  '.ShowBiggestFromAllTheTimeLink'
-);
-lastDay.addEventListener('click', function (e) {
-  console.log(e);
-  const finalDate = SelectProperDate();
-
-  const finalArr = [];
-  for (let i = 0; i < dataObject.length; i++) {
-    const element = dataObject[i];
-    if (element.time === finalDate) {
-      finalArr.push(element);
-    }
-  }
-  console.log(finalArr);
-});
 
 function formatTime(timeStamp) {
   var s = new Date(timeStamp).toLocaleDateString('en-US');
   return s;
-  // expected output "8/30/2017"
 }
 
 function SelectProperDate(timeStamp) {
@@ -170,5 +153,40 @@ function SelectProperDate(timeStamp) {
   todaysDate[1] = month;
   const finalDate = todaysDate.join('/');
   return finalDate;
-  // expected output "8/30/2017"
+}
+
+function showCards(array) {
+  navigation.innerHTML = '';
+  //generate the array  that defines
+  generateProperCards();
+}
+
+function getLengthOfTheArray() {
+  const finalDate = SelectProperDate();
+
+  const finalArr = [];
+  for (let i = 0; i < dataObject.length; i++) {
+    const element = dataObject[i];
+    if (element.time === finalDate) {
+      finalArr.push(element);
+    }
+  }
+  //render the pages
+  return finalArr.length;
+}
+
+function generateProperCards() {
+  const pagedPerdDataObject = dataObject.slice(0, 6);
+  let html = pagedPerdDataObject
+    .map((el) => {
+      return `<div class="card">
+    <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
+    <div class="card__when">When: <span class="span__when">${el.time}</span></div>
+    <div class="card__mag">Magnitude: <span class="span__mag">${el.magnitude}</span></div>
+    <span class="card__lat">${el.lat}</span>
+    <span class="card__lng">${el.lng}</span>
+  </div>`;
+    })
+    .join('');
+  navigation.insertAdjacentHTML('beforeend', html);
 }
