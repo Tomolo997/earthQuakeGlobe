@@ -36,7 +36,7 @@ async function stateFill() {
       lat: element.geometry.coordinates[1],
       magnitude: element.properties.mag,
       title: element.properties.place,
-      time: element.properties.time,
+      time: formatTime(element.properties.time),
       size: element.properties.mag / 10,
       color: [
         'rgb(21, 255, 0)',
@@ -145,4 +145,30 @@ const ShowBiggestFromAllTheTime = document.querySelector(
 );
 lastDay.addEventListener('click', function (e) {
   console.log(e);
+  const finalDate = SelectProperDate();
+
+  const finalArr = [];
+  for (let i = 0; i < dataObject.length; i++) {
+    const element = dataObject[i];
+    if (element.time === finalDate) {
+      finalArr.push(element);
+    }
+  }
+  console.log(finalArr);
 });
+
+function formatTime(timeStamp) {
+  var s = new Date(timeStamp).toLocaleDateString('en-US');
+  return s;
+  // expected output "8/30/2017"
+}
+
+function SelectProperDate(timeStamp) {
+  const todaysDate = utc.split('-').reverse();
+  let month = todaysDate[0];
+  todaysDate[0] = todaysDate[1][1];
+  todaysDate[1] = month;
+  const finalDate = todaysDate.join('/');
+  return finalDate;
+  // expected output "8/30/2017"
+}
