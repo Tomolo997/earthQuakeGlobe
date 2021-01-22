@@ -9,9 +9,15 @@
 
 //get earthquake data
 //get data
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth();
+const day = date.getDay();
+var utc = new Date().toJSON().slice(0, 10);
+
 async function getData(startTime, endTime) {
   const res = await fetch(
-    'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-20&endtime=2021-01-21'
+    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-18&endtime=${utc}`
   );
   const data = await res.json();
   console.log(data);
@@ -86,10 +92,10 @@ function getNumber(size) {
 }
 const navigation = document.querySelector('.navigaton');
 //generate the predisposed
-async function generateCards(from, to) {
+async function generateCards() {
   const dataObject = await stateFill();
 
-  const pagedPerdDataObject = dataObject.slice(from, to);
+  const pagedPerdDataObject = dataObject.slice(0, 7);
   let html = pagedPerdDataObject
     .map((el) => {
       return `<div class="card">
@@ -103,8 +109,8 @@ async function generateCards(from, to) {
     .join('');
   navigation.insertAdjacentHTML('beforeend', html);
 }
-async function getClicked(params) {
-  const cardsData = await generateCards(0, 7);
+async function getClicked(from, to) {
+  const cardsData = await generateCards(from, to);
   const cards = document.querySelectorAll('.card');
 
   cards.forEach((el) =>
@@ -130,4 +136,4 @@ async function getClicked(params) {
     })
   );
 }
-getClicked();
+getClicked(0, 6);
