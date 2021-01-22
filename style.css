@@ -16,6 +16,7 @@ body {
   align-items: center;
 }
 body {
+  overflow: hidden;
 }
 #globeViz {
   position: absolute;
@@ -23,7 +24,7 @@ body {
   left: 10rem;
 }
 .card {
-  height: 10rem;
+  height: 6rem;
   width: 90%;
   background-color: rgb(13, 87, 172);
   border-radius: 9px;
@@ -106,4 +107,12 @@ span {
 
   border-radius: 9px;
   color: white;
+}
+
+.pages {
+  width: 90%;
+  height: 2rem;
+  background-color: blue;
+  position: absolute;
+  bottom: 1rem;
 }

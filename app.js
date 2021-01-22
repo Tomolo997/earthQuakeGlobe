@@ -104,7 +104,7 @@ async function generateCards(from, to) {
   navigation.insertAdjacentHTML('beforeend', html);
 }
 async function getClicked(params) {
-  const cardsData = await generateCards(0, 50);
+  const cardsData = await generateCards(0, 7);
   const cards = document.querySelectorAll('.card');
 
   cards.forEach((el) =>
