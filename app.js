@@ -137,3 +137,12 @@ async function getClicked(from, to) {
   );
 }
 getClicked(0, 6);
+const lastDay = document.querySelector('.lastDayLink');
+const lastSevendDays = document.querySelector('.lastSevendDaysLink');
+const lastMonth = document.querySelector('.lastMonthLink');
+const ShowBiggestFromAllTheTime = document.querySelector(
+  '.ShowBiggestFromAllTheTimeLink'
+);
+lastDay.addEventListener('click', function (e) {
+  console.log(e);
+});
