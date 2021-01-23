@@ -9,6 +9,7 @@
 
 //get earthquake data
 //get data
+const lastUpdate = document.querySelector('.lastUpdateSpan');
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth();
@@ -20,7 +21,6 @@ async function getData(startTime, endTime) {
     `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-21&endtime=${utc}`
   );
   const data = await res.json();
-  console.log(data);
   return data;
 }
 //fill out the state with this data =>
@@ -34,6 +34,7 @@ const state = {
 const cardsInObject = 7;
 async function stateFill() {
   const data = await getData();
+  lastUpdate.textContent = formatTime(data.features[0].properties.updated);
   for (let i = 0; i < data.features.length; i++) {
     const element = data.features[i];
     state.dataObject.push({
@@ -53,7 +54,6 @@ async function stateFill() {
     });
   }
   state.pages = Math.floor(state.dataObject.length / state.cardsPerPage);
-  console.log(state);
   return state.dataObject;
 }
 let latn = 50;
@@ -66,9 +66,8 @@ async function occupyTheGlobe() {
   const dataObject = await stateFill();
   //get todays eqarthquake data-
   const dailyObject = state.dataObject;
-  console.log(dailyObject);
   yea = myGlobe(globeDiv)
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
     .pointsData(dailyObject)
     .pointAltitude('size')
     .pointColor('color')(document.getElementById('globeViz'))
@@ -130,7 +129,6 @@ async function getClicked() {
       const children = Array.from(cardDiv.children);
       let lat123 = children[children.length - 2];
       let lng123 = children[children.length - 1];
-      console.log(lat123.textContent, lng123.textContent);
       myGlobe.pointOfView(
         {
           lat: Number(lat123.textContent),
@@ -219,7 +217,6 @@ nextPage.addEventListener('click', function (e) {
 prevPage.addEventListener('click', function (e) {
   navigation.innerHTML = '';
   state.currentPage--;
-  console.log(state.currentPage);
   currentPageOnScreen.textContent = state.currentPage;
 
   if (state.currentPage === 1) {

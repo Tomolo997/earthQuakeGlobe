@@ -26,7 +26,7 @@ body {
 .card {
   height: 6rem;
   width: 90%;
-  background-color: rgb(13, 87, 172);
+  background-color: #0e1f45;
   border-radius: 9px;
   margin-top: 1rem;
   color: white;
@@ -35,6 +35,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   padding-left: 1rem;
+  cursor: pointer;
 }
 .card__where {
 }
@@ -99,12 +100,18 @@ span {
   border-radius: 9px;
   color: white;
 }
+.sortByTime {
+  grid-row: 2/3;
+}
+.sortByMagnitude {
+  grid-row: 2/3;
+}
 .sortByText {
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 900;
-
+  grid-row: 2/3;
   border-radius: 9px;
   color: white;
 }
@@ -143,4 +150,15 @@ span {
   flex-direction: column;
   flex-grow: initial;
   width: 90%;
+  margin-top: 0.5rem;
+}
+.titleOfTheApp {
+  color: white;
+  grid-column: 1/5;
+  font-size: 1.2rem;
+}
+.lastUpdatedAt {
+  color: white;
+  grid-row: 3/4;
+  grid-column: 1/5;
 }
