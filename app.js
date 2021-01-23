@@ -122,6 +122,7 @@ async function generateCards(from, to) {
 
   //setup the pagination , which page and next and prev
 }
+let x, y, z;
 async function getClicked() {
   const cards = document.querySelectorAll('.card');
   cards.forEach((el) =>
@@ -143,8 +144,14 @@ async function getClicked() {
 }
 
 function formatTime(timeStamp) {
-  var s = new Date(timeStamp).toLocaleDateString('en-US');
-  return s;
+  var s = new Date(timeStamp);
+  let day = s.getDate();
+  let month = s.getMonth() + 1;
+  let year = s.getFullYear();
+  let hour = s.getHours();
+  let minutes = s.getMinutes();
+  let seconds = s.getSeconds();
+  return `${day}/${month}/${year} at ${hour}:${minutes}:${seconds}`;
 }
 
 function SelectProperDate(timeStamp) {
