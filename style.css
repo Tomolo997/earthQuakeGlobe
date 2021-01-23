@@ -102,9 +102,23 @@ span {
 }
 .sortByTime {
   grid-row: 2/3;
+  padding: 0.2rem;
+  text-align: center;
+  cursor: pointer;
 }
 .sortByMagnitude {
   grid-row: 2/3;
+  padding: 0.2rem;
+  text-align: center;
+  cursor: pointer;
+}
+.sortByMagnitude:hover {
+  background-color: white;
+  color: #000011;
+}
+.sortByTime:hover {
+  background-color: white;
+  color: #000011;
 }
 .sortByText {
   display: flex;
@@ -134,7 +148,7 @@ span {
 }
 .nextPage:hover {
   background-color: white;
-  color: black;
+  color: #000011;
 }
 .previousePage {
   cursor: pointer;

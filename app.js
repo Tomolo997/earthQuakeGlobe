@@ -40,7 +40,7 @@ async function stateFill() {
     state.dataObject.push({
       lng: element.geometry.coordinates[0],
       lat: element.geometry.coordinates[1],
-      magnitude: element.properties.mag,
+      magnitude: Math.abs(element.properties.mag).toFixed(1),
       title: element.properties.place,
       time: formatTime(element.properties.time),
       size: element.properties.mag / 10,
@@ -175,8 +175,8 @@ function getLengthOfTheArray() {
   return finalArr.length;
 }
 
-function generateProperCards(from, to) {
-  const DataObject = state.dataObject.slice(from, to);
+function generateProperCards(from, to, array) {
+  const DataObject = array.slice(from, to);
   let html = DataObject.map((el) => {
     return `<div class="card">
     <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
@@ -187,6 +187,7 @@ function generateProperCards(from, to) {
   </div>`;
   }).join('');
   navigation.insertAdjacentHTML('beforeend', html);
+  getClicked();
 }
 
 const nextPage = document.querySelector('.nextPage');
@@ -198,17 +199,25 @@ nextPage.addEventListener('click', function (e) {
   state.currentPage++;
   currentPageOnScreen.textContent = state.currentPage;
   if (state.currentPage === 1) {
-    generateProperCards(0, 7);
+    generateProperCards(0, 7, state.dataObject);
   } else if (state.currentPage === 0) {
     state.currentPage = state.pages;
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(
+      state.currentPage * 7,
+      state.currentPage * 7 + 7,
+      state.dataObject
+    );
   } else if (state.currentPage > state.pages) {
     // če je večje kot pages => se spremeni v 1 in se izriše 1
     state.currentPage = 1;
     currentPageOnScreen.textContent = state.currentPage;
-    generateProperCards(0, 7);
+    generateProperCards(0, 7, state.dataObject);
   } else {
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(
+      state.currentPage * 7,
+      state.currentPage * 7 + 7,
+      state.dataObject
+    );
   }
 
   getClicked();
@@ -220,19 +229,40 @@ prevPage.addEventListener('click', function (e) {
   currentPageOnScreen.textContent = state.currentPage;
 
   if (state.currentPage === 1) {
-    generateProperCards(0, 7);
+    generateProperCards(0, 7, state.dataObject);
   } else if (state.currentPage === 0) {
     state.currentPage = state.pages;
     currentPageOnScreen.textContent = state.currentPage;
 
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(
+      state.currentPage * 7,
+      state.currentPage * 7 + 7,
+      state.dataObject
+    );
   } else if (state.currentPage >= state.pages) {
     //mislim da ni potrebno tega pogoja postaviti
     state.currentPage = 0;
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(
+      state.currentPage * 7,
+      state.currentPage * 7 + 7,
+      state.dataObject
+    );
   } else {
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(
+      state.currentPage * 7,
+      state.currentPage * 7 + 7,
+      state.dataObject
+    );
   }
 
   getClicked();
+});
+
+const sortMagnitude = document.querySelector('.sortByMagnitude');
+
+sortMagnitude.addEventListener('click', function (e) {
+  console.log(e);
+  navigation.innerHTML = '';
+  state.dataObject = state.dataObject.sort((a, b) => b.magnitude - a.magnitude);
+  generateProperCards(0, 7, state.dataObject);
 });
