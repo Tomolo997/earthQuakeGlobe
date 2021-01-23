@@ -175,5 +175,19 @@ span {
   font-style: italic;
 }
 
+.github {
+  position: absolute;
+  bottom: 0rem;
+  height: 1rem;
+  width: 4rem;
+  z-index: 200000000;
+  font-size: 0.7rem;
+  left: 1rem;
+}
+.githublINK {
+  text-decoration: none;
+  color: white;
+}
+
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
