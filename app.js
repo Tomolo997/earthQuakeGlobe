@@ -29,6 +29,7 @@ const state = {
   cardsPerPage: 7,
   dataObject: [],
   pages: 1,
+  lastPage: 1,
 };
 const cardsInObject = 7;
 async function stateFill() {
@@ -51,7 +52,7 @@ async function stateFill() {
       ][getNumber(element.properties.mag)],
     });
   }
-  state.pages = state.dataObject.length / state.cardsPerPage;
+  state.pages = Math.floor(state.dataObject.length / state.cardsPerPage);
   console.log(state);
   return state.dataObject;
 }
@@ -193,6 +194,7 @@ function generateProperCards(from, to) {
 const nextPage = document.querySelector('.nextPage');
 const prevPage = document.querySelector('.previousePage');
 const currentPageOnScreen = document.querySelector('.currentPage');
+
 nextPage.addEventListener('click', function (e) {
   console.log(e.target);
   navigation.innerHTML = '';
@@ -201,8 +203,14 @@ nextPage.addEventListener('click', function (e) {
   currentPageOnScreen.textContent = state.currentPage;
   if (state.currentPage === 1) {
     generateProperCards(0, 7);
-  } else if (state.currentPage < 1) {
-    state.currentPage = Math.floor(state.dataObject.length / 7);
+  } else if (state.currentPage === 0) {
+    state.currentPage = state.pages;
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+  } else if (state.currentPage > state.pages) {
+    state.currentPage = 1;
+    currentPageOnScreen.textContent = state.currentPage;
+
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   } else {
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   }
@@ -212,6 +220,7 @@ nextPage.addEventListener('click', function (e) {
 
 prevPage.addEventListener('click', function (e) {
   console.log(e.target);
+  console.log(state.pages);
   navigation.innerHTML = '';
   state.currentPage--;
   console.log(state.currentPage);
@@ -219,8 +228,14 @@ prevPage.addEventListener('click', function (e) {
 
   if (state.currentPage === 1) {
     generateProperCards(0, 7);
-  } else if (state.currentPage < 1) {
-    state.currentPage = Math.floor(state.dataObject.length / 7);
+  } else if (state.currentPage === 0) {
+    state.currentPage = state.pages;
+    currentPageOnScreen.textContent = state.currentPage;
+
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+  } else if (state.currentPage >= state.pages) {
+    state.currentPage = 0;
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   } else {
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   }
