@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": {    "start": "parcel index.html",
+    "build": "parcel build index.html ./dist"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Tomolo997/earthQuakeGlobe/issues"
   },
-  "homepage": "https://github.com/Tomolo997/earthQuakeGlobe#readme"
+  "homepage": "https://github.com/Tomolo997/earthQuakeGlobe#readme",
+  "dependencies": {
+    "parcel": "^1.12.4"
+  }
 }

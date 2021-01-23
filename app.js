@@ -9,6 +9,7 @@
 
 //get earthquake data
 //get data
+import regeneratorRuntime from 'regenerator-runtime';
 const lastUpdate = document.querySelector('.lastUpdateSpan');
 const date = new Date();
 const year = date.getFullYear();
