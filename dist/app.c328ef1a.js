@@ -974,9 +974,6 @@ function _stateFill() {
   return _stateFill.apply(this, arguments);
 }
 
-var latn = 50;
-var lngt = 50;
-var altitude = 2;
 var globeDiv = document.querySelector('#globeViz');
 var myGlobe = Globe();
 var yea = '';
@@ -1280,7 +1277,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57686" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58741" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

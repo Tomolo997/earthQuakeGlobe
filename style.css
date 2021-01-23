@@ -188,3 +188,60 @@ span {
   text-decoration: none;
   color: white;
 }
+.legend {
+  position: absolute;
+  right: -6rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 7rem;
+  height: 12rem;
+  background-color: #0e1f45;
+}
+.legendBlock {
+  width: 1rem;
+  height: 1rem;
+  position: absolute;
+  left: 1rem;
+}
+.legendList {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: -1rem;
+  list-style: none;
+}
+.legendItem {
+  height: 1rem;
+  width: 100%;
+  margin-top: 0.7rem;
+}
+.legendItemTitle {
+  width: 4rem;
+}
+.legendTitle {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+
+.nineOrMore {
+  background-color: rgb(0, 0, 0);
+}
+.sevenAndNine {
+  background-color: rgb(88, 0, 0);
+}
+.fiveAndSeven {
+  background-color: rgb(168, 0, 0);
+}
+.threeAnadFive {
+  background-color: rgb(10, 119, 0);
+}
+.lessThanThree {
+  background-color: rgb(21, 255, 0);
+}
+/* 'rgb(21, 255, 0)'
+'rgb(10, 119, 0)'
+'rgb(168, 0, 0)',
+'rgb(88, 0, 0)',
+'rgb(0, 0, 0)', */
