@@ -43,6 +43,7 @@ async function stateFill() {
       magnitude: Math.abs(element.properties.mag).toFixed(1),
       title: element.properties.place,
       time: formatTime(element.properties.time),
+      timeStamp: element.properties.time,
       size: element.properties.mag / 10,
       color: [
         'rgb(21, 255, 0)',
@@ -259,10 +260,43 @@ prevPage.addEventListener('click', function (e) {
 });
 
 const sortMagnitude = document.querySelector('.sortByMagnitude');
-
+let descending = true;
 sortMagnitude.addEventListener('click', function (e) {
   console.log(e);
   navigation.innerHTML = '';
-  state.dataObject = state.dataObject.sort((a, b) => b.magnitude - a.magnitude);
+  if (descending) {
+    state.dataObject = state.dataObject.sort(
+      (a, b) => b.magnitude - a.magnitude
+    );
+    descending = false;
+  } else {
+    state.dataObject = state.dataObject.sort(
+      (a, b) => a.magnitude - b.magnitude
+    );
+    descending = true;
+  }
   generateProperCards(0, 7, state.dataObject);
+  state.currentPage = 1;
+  currentPageOnScreen.textContent = state.currentPage;
+});
+const sortByTime = document.querySelector('.sortByTime');
+let descendingTime = true;
+sortByTime.addEventListener('click', function (e) {
+  console.log(e);
+  navigation.innerHTML = '';
+  if (descendingTime) {
+    state.dataObject = state.dataObject.sort(
+      (a, b) => b.timeStamp - a.timeStamp
+    );
+    descendingTime = false;
+  } else {
+    state.dataObject = state.dataObject.sort(
+      (a, b) => a.timeStamp - b.timeStamp
+    );
+    descendingTime = true;
+  }
+  generateProperCards(0, 7, state.dataObject);
+  state.currentPage = 1;
+
+  currentPageOnScreen.textContent = state.currentPage;
 });
