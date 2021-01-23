@@ -64,7 +64,7 @@ let yea = '';
 async function occupyTheGlobe() {
   const dataObject = await stateFill();
   //get todays eqarthquake data-
-  const dailyObject = state.dataObject.slice(0, getLengthOfTheArray());
+  const dailyObject = state.dataObject;
   console.log(dailyObject);
   yea = myGlobe(globeDiv)
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
@@ -115,6 +115,7 @@ async function generateCards(from, to) {
   </div>`;
   }).join('');
   navigation.insertAdjacentHTML('beforeend', html);
+  getClicked();
 
   //setup the 7 cards per page
 
@@ -200,6 +201,8 @@ nextPage.addEventListener('click', function (e) {
   currentPageOnScreen.textContent = state.currentPage;
   if (state.currentPage === 1) {
     generateProperCards(0, 7);
+  } else if (state.currentPage < 1) {
+    state.currentPage = Math.floor(state.dataObject.length / 7);
   } else {
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   }
@@ -216,6 +219,8 @@ prevPage.addEventListener('click', function (e) {
 
   if (state.currentPage === 1) {
     generateProperCards(0, 7);
+  } else if (state.currentPage < 1) {
+    state.currentPage = Math.floor(state.dataObject.length / 7);
   } else {
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   }
