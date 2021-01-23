@@ -127,3 +127,9 @@ span {
 .previousePage {
   cursor: pointer;
 }
+.cardsNavigator {
+  display: flex;
+  flex-direction: column;
+  flex-grow: initial;
+  width: 90%;
+}

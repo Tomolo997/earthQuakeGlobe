@@ -17,21 +17,25 @@ var utc = new Date().toJSON().slice(0, 10);
 
 async function getData(startTime, endTime) {
   const res = await fetch(
-    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-18&endtime=${utc}`
+    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-01&endtime=${utc}`
   );
   const data = await res.json();
   console.log(data);
   return data;
 }
 //fill out the state with this data =>
-
-const dataObject = [];
+const state = {
+  currentPage: 1,
+  cardsPerPage: 7,
+  dataObject: [],
+  pages: 1,
+};
 const cardsInObject = 7;
 async function stateFill() {
   const data = await getData();
   for (let i = 0; i < data.features.length; i++) {
     const element = data.features[i];
-    dataObject.push({
+    state.dataObject.push({
       lng: element.geometry.coordinates[0],
       lat: element.geometry.coordinates[1],
       magnitude: element.properties.mag,
@@ -45,10 +49,11 @@ async function stateFill() {
         'rgb(88, 0, 0)',
         'rgb(0, 0, 0)',
       ][getNumber(element.properties.mag)],
-      earthQuakesPerPage: dataObject.length / cardsInObject,
     });
   }
-  return dataObject;
+  state.pages = state.dataObject.length / state.cardsPerPage;
+  console.log(state);
+  return state.dataObject;
 }
 let latn = 50;
 let lngt = 50;
@@ -58,15 +63,19 @@ const myGlobe = Globe();
 let yea = '';
 async function occupyTheGlobe() {
   const dataObject = await stateFill();
+  //get todays eqarthquake data-
+  const dailyObject = state.dataObject.slice(0, getLengthOfTheArray());
+  console.log(dailyObject);
   yea = myGlobe(globeDiv)
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
-    .pointsData(dataObject)
+    .pointsData(dailyObject)
     .pointAltitude('size')
     .pointColor('color')(document.getElementById('globeViz'))
     .enablePointerInteraction(true);
 }
 function init() {
   occupyTheGlobe();
+  generateCards(0, 7);
 }
 init();
 
@@ -95,27 +104,24 @@ const navigation = document.querySelector('.cardsNavigator');
 async function generateCards(from, to) {
   const dataObject = await stateFill();
 
-  const pagedPerdDataObject = dataObject.slice(0, 7);
-  let html = pagedPerdDataObject
-    .map((el) => {
-      return `<div class="card">
+  const DataObject = state.dataObject.slice(0, 7);
+  let html = DataObject.map((el) => {
+    return `<div class="card">
     <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
     <div class="card__when">When: <span class="span__when">${el.time}</span></div>
     <div class="card__mag">Magnitude: <span class="span__mag">${el.magnitude}</span></div>
     <span class="card__lat">${el.lat}</span>
     <span class="card__lng">${el.lng}</span>
   </div>`;
-    })
-    .join('');
+  }).join('');
   navigation.insertAdjacentHTML('beforeend', html);
 
   //setup the 7 cards per page
+
   //setup the pagination , which page and next and prev
 }
-async function getClicked(from, to) {
-  const cardsData = await generateCards(from, to);
+async function getClicked() {
   const cards = document.querySelectorAll('.card');
-
   cards.forEach((el) =>
     el.addEventListener('click', function (e) {
       const cardDiv = e.target.closest('.card');
@@ -131,15 +137,9 @@ async function getClicked(from, to) {
         },
         [1000]
       );
-      // myGlobe(globeDiv)
-      //   .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
-      //   .pointsData(cardsData)
-      //   .pointAltitude('size')
-      //   .pointColor('color')(document.getElementById('globeViz'));
     })
   );
 }
-getClicked(0, 6);
 
 function formatTime(timeStamp) {
   var s = new Date(timeStamp).toLocaleDateString('en-US');
@@ -165,8 +165,8 @@ function getLengthOfTheArray() {
   const finalDate = SelectProperDate();
 
   const finalArr = [];
-  for (let i = 0; i < dataObject.length; i++) {
-    const element = dataObject[i];
+  for (let i = 0; i < state.dataObject.length; i++) {
+    const element = state.dataObject[i];
     if (element.time === finalDate) {
       finalArr.push(element);
     }
@@ -175,18 +175,50 @@ function getLengthOfTheArray() {
   return finalArr.length;
 }
 
-function generateProperCards() {
-  const pagedPerdDataObject = dataObject.slice(0, 6);
-  let html = pagedPerdDataObject
-    .map((el) => {
-      return `<div class="card">
+function generateProperCards(from, to) {
+  const DataObject = state.dataObject.slice(from, to);
+  let html = DataObject.map((el) => {
+    return `<div class="card">
     <div class="card__where">Where: <span class="span__where">${el.title}</span></div>
     <div class="card__when">When: <span class="span__when">${el.time}</span></div>
     <div class="card__mag">Magnitude: <span class="span__mag">${el.magnitude}</span></div>
     <span class="card__lat">${el.lat}</span>
     <span class="card__lng">${el.lng}</span>
   </div>`;
-    })
-    .join('');
+  }).join('');
   navigation.insertAdjacentHTML('beforeend', html);
 }
+
+const nextPage = document.querySelector('.nextPage');
+const prevPage = document.querySelector('.previousePage');
+const currentPageOnScreen = document.querySelector('.currentPage');
+nextPage.addEventListener('click', function (e) {
+  console.log(e.target);
+  navigation.innerHTML = '';
+  state.currentPage++;
+  console.log(state.currentPage);
+  currentPageOnScreen.textContent = state.currentPage;
+  if (state.currentPage === 1) {
+    generateProperCards(0, 7);
+  } else {
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+  }
+
+  getClicked();
+});
+
+prevPage.addEventListener('click', function (e) {
+  console.log(e.target);
+  navigation.innerHTML = '';
+  state.currentPage--;
+  console.log(state.currentPage);
+  currentPageOnScreen.textContent = state.currentPage;
+
+  if (state.currentPage === 1) {
+    generateProperCards(0, 7);
+  } else {
+    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+  }
+
+  getClicked();
+});
