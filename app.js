@@ -151,7 +151,13 @@ function formatTime(timeStamp) {
   let hour = s.getHours();
   let minutes = s.getMinutes();
   let seconds = s.getSeconds();
-  return `${day}/${month}/${year} at ${hour}:${minutes}:${seconds}`;
+  return `${String(day).padStart(2, '0')}/${String(month).padStart(
+    2,
+    '0'
+  )}/${year} at ${String(hour).padStart(2, '0')}:${String(minutes).padStart(
+    2,
+    '0'
+  )}:${String(seconds).padStart(2, '0')}`;
 }
 
 function SelectProperDate(timeStamp) {
