@@ -17,7 +17,7 @@ var utc = new Date().toJSON().slice(0, 10);
 
 async function getData(startTime, endTime) {
   const res = await fetch(
-    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-01&endtime=${utc}`
+    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-21&endtime=${utc}`
   );
   const data = await res.json();
   console.log(data);
@@ -196,10 +196,8 @@ const prevPage = document.querySelector('.previousePage');
 const currentPageOnScreen = document.querySelector('.currentPage');
 
 nextPage.addEventListener('click', function (e) {
-  console.log(e.target);
   navigation.innerHTML = '';
   state.currentPage++;
-  console.log(state.currentPage);
   currentPageOnScreen.textContent = state.currentPage;
   if (state.currentPage === 1) {
     generateProperCards(0, 7);
@@ -207,10 +205,10 @@ nextPage.addEventListener('click', function (e) {
     state.currentPage = state.pages;
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   } else if (state.currentPage > state.pages) {
+    // če je večje kot pages => se spremeni v 1 in se izriše 1
     state.currentPage = 1;
     currentPageOnScreen.textContent = state.currentPage;
-
-    generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
+    generateProperCards(0, 7);
   } else {
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   }
@@ -219,8 +217,6 @@ nextPage.addEventListener('click', function (e) {
 });
 
 prevPage.addEventListener('click', function (e) {
-  console.log(e.target);
-  console.log(state.pages);
   navigation.innerHTML = '';
   state.currentPage--;
   console.log(state.currentPage);
@@ -234,6 +230,7 @@ prevPage.addEventListener('click', function (e) {
 
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   } else if (state.currentPage >= state.pages) {
+    //mislim da ni potrebno tega pogoja postaviti
     state.currentPage = 0;
     generateProperCards(state.currentPage * 7, state.currentPage * 7 + 7);
   } else {

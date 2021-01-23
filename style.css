@@ -122,10 +122,21 @@ span {
 }
 .nextPage {
   cursor: pointer;
+  border: 1px solid rgb(255, 255, 255);
+  padding: 0.3rem 1rem 0.3rem 1rem;
 }
-
+.nextPage:hover {
+  background-color: white;
+  color: black;
+}
 .previousePage {
   cursor: pointer;
+  border: 1px solid white;
+  padding: 0.3rem 1rem 0.3rem 1rem;
+}
+.previousePage:hover {
+  background-color: white;
+  color: black;
 }
 .cardsNavigator {
   display: flex;
