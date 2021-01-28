@@ -6,12 +6,22 @@ const month = date.getMonth();
 const day = date.getDay();
 console.log(date.getDay() - 3);
 var utc = new Date().toJSON().slice(0, 10);
+const start = Date.now();
 
+const DATENOW = start - 3 * 86400000;
+console.log(getTimeForStartTime(DATENOW));
+const startDate = getTimeForStartTime(DATENOW);
+function getTimeForStartTime(timestamps) {
+  const date = new Date(timestamps);
+  const todaysDate = date.toJSON().slice(0, 10).split('-').reverse();
+  let month = todaysDate[0];
+  let year = todaysDate[2];
+  let day = todaysDate[1][1];
+  return year + '-' + day + '-' + month;
+}
 async function getData(startTime, endTime) {
   const res = await fetch(
-    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-${
-      date.getDate() - 3
-    }&endtime=${utc}`
+    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${startDate}&endtime=${utc}`
   );
   const data = await res.json();
   return data;

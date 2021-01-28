@@ -886,6 +886,19 @@ var month = date.getMonth();
 var day = date.getDay();
 console.log(date.getDay() - 3);
 var utc = new Date().toJSON().slice(0, 10);
+var start = Date.now();
+var DATENOW = start - 3 * 86400000;
+console.log(getTimeForStartTime(DATENOW));
+var startDate = getTimeForStartTime(DATENOW);
+
+function getTimeForStartTime(timestamps) {
+  var date = new Date(timestamps);
+  var todaysDate = date.toJSON().slice(0, 10).split('-').reverse();
+  var month = todaysDate[0];
+  var year = todaysDate[2];
+  var day = todaysDate[1][1];
+  return year + '-' + day + '-' + month;
+}
 
 function getData(_x, _x2) {
   return _getData.apply(this, arguments);
@@ -900,7 +913,7 @@ function _getData() {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-".concat(date.getDate() - 3, "&endtime=").concat(utc));
+            return fetch("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=".concat(startDate, "&endtime=").concat(utc));
 
           case 2:
             res = _context.sent;
@@ -1278,7 +1291,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55771" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58627" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
