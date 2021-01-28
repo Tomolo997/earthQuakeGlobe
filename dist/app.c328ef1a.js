@@ -884,6 +884,7 @@ var date = new Date();
 var year = date.getFullYear();
 var month = date.getMonth();
 var day = date.getDay();
+console.log(date.getDay() - 3);
 var utc = new Date().toJSON().slice(0, 10);
 
 function getData(_x, _x2) {
@@ -899,7 +900,7 @@ function _getData() {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-21&endtime=".concat(utc));
+            return fetch("https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-".concat(date.getDate() - 3, "&endtime=").concat(utc));
 
           case 2:
             res = _context.sent;
@@ -1277,7 +1278,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58613" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55771" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -4,11 +4,14 @@ const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth();
 const day = date.getDay();
+console.log(date.getDay() - 3);
 var utc = new Date().toJSON().slice(0, 10);
 
 async function getData(startTime, endTime) {
   const res = await fetch(
-    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-21&endtime=${utc}`
+    `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-1-${
+      date.getDate() - 3
+    }&endtime=${utc}`
   );
   const data = await res.json();
   return data;
